@@ -8,8 +8,10 @@ from eth_account import Account
 from loguru import logger
 from eth_account.messages import encode_defunct
 from concurrent.futures import ThreadPoolExecutor
+import threading
 
 
+lock = threading.Lock()
 private_keys_with_points = []
 
 def retry(max_attempts=3):
@@ -109,7 +111,8 @@ def check(private_key: str, proxy: str):
             points = get_points(client, access_token)
             if points and points > 0:
                 logger.success(f"Wallet {wallet.address} has {points} points")
-                private_keys_with_points.append(private_key)
+                with lock:
+                    private_keys_with_points.append(private_key)
     except Exception as e:
         logger.error(f"Error in check: {e}")
         None
