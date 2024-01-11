@@ -1,4 +1,4 @@
 urllib3==2.1.0
-curl-cffi==0.5.10
+requests==2.31.0
 eth-account==0.8.0
 loguru==0.7.2
