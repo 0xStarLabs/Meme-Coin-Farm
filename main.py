@@ -14,7 +14,7 @@ import threading
 lock = threading.Lock()
 private_keys_with_points = []
 
-def retry(max_attempts=3):
+def retry(max_attempts=5):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -24,10 +24,10 @@ def retry(max_attempts=3):
                     return func(*args, **kwargs)
                 except Exception as e:
                     attempts += 1
-                    if attempts == max_attempts:
+                    if attempts >= max_attempts:
                         raise
-                    else:
-                        time.sleep(5)
+                    time.sleep(5) 
+            return None
         return wrapper
     return decorator
 
