@@ -3,7 +3,7 @@ import urllib3
 import random
 import time
 import functools
-from curl_cffi import requests
+import requests
 from eth_account import Account
 from loguru import logger
 from eth_account.messages import encode_defunct
@@ -34,7 +34,7 @@ def retry(max_attempts=3):
 
 @retry()
 def create_client(proxy: str) -> requests.Session:
-    session = requests.Session(impersonate="chrome110", timeout=60)
+    session = requests.Session()
 
     if proxy:
         session.proxies.update({
