@@ -70,6 +70,7 @@ def main():
     elif choice == 3:
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
             for private_key, proxy in zip(private_keys, proxies):
+                wallet = Account.from_key(private_key)
                 balance = w3.from_wei(contract.functions.balanceOf(wallet.address).call(), "ether")
                 if balance > 69:
                     register = Register(private_key, proxy)
