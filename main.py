@@ -12,8 +12,8 @@ from modules.exchange import Exchange
 from modules.checker import Checker, save_private_keys_and_proxies as save_checker
 from modules.register import Register, save_private_keys_and_proxies as save_registration
 from utilities.common import read_files
-from utilities.constants import MEME_ADDRESS, ERC_20_ABI
-from config import PAUSE, RPC
+from utilities.constants import MEME_ADDRESS, ERC_20_ABI 
+from config import PAUSE, RPC, PRIVATE_KEYS_RANDOM_MOD
 
 
 def execute_withdraw_and_register(exchange, register):
@@ -25,6 +25,12 @@ def execute_withdraw_and_register(exchange, register):
     else:
         # Only if withdraw succeeds, submit register.execute
         register.execute()
+
+
+def shuffle_together(arr1, arr2):
+    combined = list(zip(arr1, arr2))
+    random.shuffle(combined)
+    return zip(*combined)
 
 
 def configuration():
@@ -39,6 +45,9 @@ def main():
     configuration()
     private_keys, proxies = read_files()
 
+    if PRIVATE_KEYS_RANDOM_MOD == "shuffle":
+        private_keys, proxies = shuffle_together(private_keys, proxies)
+    
     print("Choose an option:")
     print("1. Run checker")
     print("2. Run withdraw")
@@ -103,4 +112,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
