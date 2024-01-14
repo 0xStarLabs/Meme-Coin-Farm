@@ -3,3 +3,4 @@ requests==2.31.0
 eth-account==0.8.0
 loguru==0.7.2
 ccxt==4.1.56
+pyuseragents==1.0.5
