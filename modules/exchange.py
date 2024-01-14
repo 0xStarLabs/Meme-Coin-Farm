@@ -29,11 +29,15 @@ class Exchange():
                         contract = self.w3.eth.contract(address=self.w3.to_checksum_address(MEME_ADDRESS), abi=ERC_20_ABI)
                         initial_balance = contract.functions.balanceOf(self.address).call()
 
-                        amount = round(withdraw_fee + random.uniform(AMOUNT[0], AMOUNT[1]), 8)
+                        amount = withdraw_min + random.uniform(1, 10)
+                        net_amount = amount - withdraw_fee
+                        if net_amount < AMOUNT[0]:
+                            to_add = random.uniform(AMOUNT[0] - net_amount, AMOUNT[1] - net_amount)
+                            amount += to_add
                         logger.info(f"Sending {amount} MEME withdrawal request")
                         self.exchange.withdraw(
                             "MEME",
-                            amount,
+                            round(amount, 8),
                             self.address,
                             None,
                             {
