@@ -1,6 +1,6 @@
 import random
 import requests
-
+from pyuseragents import random as random_useragent
 
 def read_files():
     with open("./data/private_keys.txt") as file:
@@ -28,7 +28,7 @@ def create_client(proxy: str) -> requests.Session:
         'accept': 'application/json',
         'accept-language': 'uk',
         'origin': 'https://www.memecoin.org',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        'user-agent': random_useragent()
     })
 
     return session
