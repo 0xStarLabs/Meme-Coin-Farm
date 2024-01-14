@@ -72,9 +72,11 @@ def main():
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
             for private_key in private_keys:
                 wallet = Account.from_key(private_key)
-                exchange = Exchange(wallet.address, w3)
-                executor.submit(exchange.withdraw)
-                time.sleep(random.randint(PAUSE[0], PAUSE[1]))
+                balance = w3.from_wei(contract.functions.balanceOf(wallet.address).call(), "ether")
+                if balance < 69:
+                    exchange = Exchange(wallet.address, w3)
+                    executor.submit(exchange.withdraw)
+                    time.sleep(random.randint(PAUSE[0], PAUSE[1]))
 
     elif choice == 3:
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
